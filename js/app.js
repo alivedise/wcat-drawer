@@ -6,9 +6,9 @@
 
     getInitialState: function getInitialState() {
       this.stores = {
-        'star4': window.T15.concat(window.T13),
-        'star3': window.Star3,
-        'star2': window.Star2
+        'star4': window.SSRare,
+        'star3': window.SRare,
+        'star2': window.Rare
       };
       return {
         money: 0,
@@ -26,12 +26,6 @@
     },
     getRandom: function getRandom(rarity) {
       var item = this.stores[rarity][Math.floor(Math.random() * this.stores[rarity].length)];
-      if (item.length === 2) {
-        item.push(rarity);
-      }
-      if (item[0].indexOf('.png') < 0) {
-        item[0] = 'http://wcatproject.com/img/icon/' + item[0] + '.png';
-      }
       return item;
     },
     draw: function draw(time) {
@@ -51,10 +45,9 @@
     drawTen: function drawTen() {
       var money = this.state.money;
       var results = this.state.results;
-      var newResult = this.draw(10);
-      newResult.push(this.draw(1));
+      var newResult = this.draw(11);
       this.setState({
-        money: money + 3000,
+        money: money + 250,
         results: results.concat(newResult),
         newResult: newResult
       });
@@ -64,32 +57,10 @@
       var results = this.state.results;
       var newResult = this.draw(1);
       this.setState({
-        money: money + 300,
+        money: money + 25,
         results: results.concat(newResult),
         newResult: newResult
       });
-    },
-    componentDidUpdate: function componentDidUpdate() {
-      var results = this.state.results;
-      var newResult = this.state.newResult;
-      for (var key in this.refs) {
-        var self = this;
-        (function () {
-          var type = key.split('-')[0];
-          var index = Number(key.split('-')[1]);
-          self.refs[key].getDOMNode().onerror = function () {
-            if (type === 'new') {
-              newResult[index][0] = 'img/bug.png';
-            } else {
-              results[index][0] = 'img/bug.png';
-            }
-            self.setState({
-              newResult: newResult,
-              results: results
-            });
-          };
-        })();
-      }
     },
     onClick: function onClick(evt) {
       switch (evt.target.id) {
@@ -116,18 +87,10 @@
       var star3 = 0;
       var star2 = 0;
       var resultDOM = this.state.newResult.map(function (item, index) {
-        var name = '';
-        if (item[0].indexOf('bug') >= 0) {
-          name = React.createElement(
-            'div',
-            { className: 'name' },
-            item[1]
-          );
-        }
         return React.createElement(
           'div',
-          { className: 'col-lg-3 col-md-4 col-xs-6 thumb' },
-          React.createElement('img', { ref: 'new-' + index, src: item[0], alt: item[1] }),
+          { className: 'col-md-2' },
+          React.createElement('img', { src: item.img, alt: item.name }),
           name
         );
       });
@@ -143,9 +106,9 @@
         );
       }
       var totalDOM = this.state.results.map(function (item, index) {
-        if (item[2] === 'star4') {
+        if (item.rarity === 4) {
           star4++;
-        } else if (item[2] === 'star3') {
+        } else if (item.rarity === 3) {
           star3++;
         } else {
           star2++;
@@ -153,7 +116,7 @@
         return React.createElement(
           'div',
           { className: 'thumb col-md-1' },
-          React.createElement('img', { ref: 'all-' + index, alt: item[1], src: item[0] })
+          React.createElement('img', { ref: 'all-' + index, alt: item.name, src: item.img })
         );
       });
       if (totalDOM.length) {
@@ -172,7 +135,7 @@
         null,
         React.createElement(
           'div',
-          { key: 'control' },
+          { key: 'control', className: 'container' },
           React.createElement(
             'div',
             { className: 'row' },
@@ -184,7 +147,7 @@
             React.createElement(
               'button',
               { className: 'btn btn-info', id: 'ten', onClick: this.onClick },
-              '十抽'
+              '十連(10+1)'
             ),
             React.createElement(
               'button',
@@ -203,15 +166,15 @@
           null,
           '累計: ',
           this.state.money,
-          ' [4: ',
+          '石 [四星: ',
           star4,
           '(',
           this.getPercentage(star4),
-          ') ,star3: ',
+          ') ,三星: ',
           star3,
           '(',
           this.getPercentage(star3),
-          '), star2: ',
+          '), 二星: ',
           star2,
           '(',
           this.getPercentage(star2),

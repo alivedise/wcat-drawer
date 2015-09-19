@@ -254,13 +254,13 @@ img.character {
 
 div.name {
   position: absolute;
-  bottom: -20px;
-  right: 100px;
+  bottom: 0px;
+  right: 180px;
   color: white;
   background-color: blue;
   opacity: 0.8;
 }
 
 div.row img {
-  width: 182px;
+  width: 100%;
 }
