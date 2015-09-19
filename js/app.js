@@ -89,7 +89,7 @@
       var resultDOM = this.state.newResult.map(function (item, index) {
         return React.createElement(
           'div',
-          { className: 'col-md-2' },
+          { className: 'col-lg-1 col-md-2 col-xs-3' },
           React.createElement('img', { src: item.img, alt: item.name }),
           name
         );
@@ -115,7 +115,7 @@
         }
         return React.createElement(
           'div',
-          { className: 'thumb col-md-1' },
+          { className: 'thumb col-lg-1 col-md-1 col-sm-1 col-xs-1' },
           React.createElement('img', { ref: 'all-' + index, alt: item.name, src: item.img })
         );
       });

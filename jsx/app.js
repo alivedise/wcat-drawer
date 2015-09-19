@@ -85,7 +85,7 @@
       var star3 = 0;
       var star2 = 0;
       var resultDOM = this.state.newResult.map(function(item, index) {
-        return <div className="col-md-2">
+        return <div className="col-lg-1 col-md-2 col-xs-3">
                 <img src={item.img} alt={item.name} />
                 {name}
                </div>
@@ -101,7 +101,7 @@
         } else {
           star2++;
         }
-        return <div className="thumb col-md-1"><img ref={'all-' + index} alt={item.name} src={item.img} /></div>
+        return <div className="thumb col-lg-1 col-md-1 col-sm-1 col-xs-1"><img ref={'all-' + index} alt={item.name} src={item.img} /></div>
       });
       if (totalDOM.length) {
         totalDOM = <div className="container"><div className="row">{totalDOM}</div></div>
